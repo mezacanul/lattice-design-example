@@ -12,7 +12,6 @@ import { ColorModeToggle } from "../components/color-mode-toggle";
 import { FaLightbulb } from "react-icons/fa";
 import { SlEnergy } from "react-icons/sl";
 import { RiLightbulbLine, RiLightbulbFlashFill } from "react-icons/ri";
-
 import { Singleton } from "../utils/lattice-design";
 
 const useLight = Singleton(false);
