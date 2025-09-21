@@ -15,7 +15,8 @@ import {
     RiLightbulbLine,
     RiLightbulbFlashFill,
 } from "react-icons/ri";
-import { loadHook, Singleton } from "../utils/lattice-design";
+// import { loadHook, Singleton } from "../utils/lattice-design";
+import { Singleton, loadHook } from "lattice-design";
 
 const useLight = Singleton(false);
 
@@ -82,7 +83,7 @@ function Controls() {
 
     const handleLightChange = (e) => {
         setLight(e.checked);
-        setTitle(e.checked ? "Lattice Design - Try it out!" : "Lattice Design");
+        setTitle(e.checked ? "Try it out!" : "Lattice Design");
     };
     return (
         <HStack>

@@ -4,7 +4,7 @@ import {
 } from "@chakra-ui/react";
 import { ThemeProvider } from "next-themes";
 import Head from "next/head";
-import { loadHook, Nexus, Singleton } from "../utils/lattice-design";
+import { loadHook, Nexus, Singleton } from "lattice-design";
 
 Nexus({
     useTitle: Singleton("Lattice Design"),
