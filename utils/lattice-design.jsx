@@ -1,18 +1,26 @@
 import { useState, useEffect } from "react";
 
 let lattice_grid = {};
-const allowedEntryFiles = ["_app.jsx", "main.jsx", "route-loader.js"]; // Define allowed entry files
+const allowedEntryFiles = [
+    "_app.jsx",
+    "main.jsx",
+    "route-loader.js",
+]; // Define allowed entry files
 
 // Singleton: Creates a mini context for shared state
-export function Singleton(initialState) {
+function Singleton(initialState) {
     let sharedState = initialState;
     let listeners = [];
 
     const setSharedState = (newState) => {
         sharedState =
-            typeof newState === "function" ? newState(sharedState) : newState;
+            typeof newState === "function"
+                ? newState(sharedState)
+                : newState;
         // console.log("Singleton: State updated", sharedState);
-        listeners.forEach((listener) => listener(sharedState));
+        listeners.forEach((listener) =>
+            listener(sharedState)
+        );
     };
 
     function useSharedContext() {
@@ -33,7 +41,9 @@ export function Singleton(initialState) {
 
     useSharedContext.reset = () => {
         sharedState = initialState;
-        listeners.forEach((listener) => listener(sharedState));
+        listeners.forEach((listener) =>
+            listener(sharedState)
+        );
         // listeners = [];
         // Keep Listeners active because we are only resetting values
     };
@@ -43,21 +53,21 @@ export function Singleton(initialState) {
 }
 
 // Nexus: Initializes app-wide mini singletons
-export function Nexus(config) {
+function Nexus(config) {
     if (lattice_grid.initialized) {
         throw new Error(
             "Nexus can only be initialized once. It should be called in an entry-level file like _app.jsx or main.jsx."
         );
     }
 
-    const callerFile = detectCallerFile();
-    if (!callerFile || !allowedEntryFiles.includes(callerFile)) {
-        throw new Error(
-            `Nexus can only be initialized in entry-level files: ${allowedEntryFiles.join(
-                ", "
-            )}. It was called from ${callerFile || "an unknown file"}.`
-        );
-    }
+    // const callerFile = detectCallerFile();
+    // if (!callerFile || !allowedEntryFiles.includes(callerFile)) {
+    //     throw new Error(
+    //         `Nexus can only be initialized in entry-level files: ${allowedEntryFiles.join(
+    //             ", "
+    //         )}. It was called from ${callerFile || "an unknown file"}.`
+    //     );
+    // }
 
     // Initialize lattice_grid
     Object.entries(config).forEach(([key, singleton]) => {
@@ -72,7 +82,7 @@ export function Nexus(config) {
 }
 
 // loadHook: Dynamically access mini singletons by name
-export function loadHook(hookName) {
+function loadHook(hookName) {
     const hookEntry = lattice_grid[hookName];
     if (hookEntry) {
         return hookEntry.hook();
@@ -96,9 +106,14 @@ function detectCallerFile() {
             /at .+?\(?(.+?\.(?:jsx|js|ts|tsx))(?:\?.*)?(?:\:\d+\:\d+)?\)?$/
         );
         if (match) {
-            callerFile = match[1].split("?")[0].split("/").pop();
+            callerFile = match[1]
+                .split("?")[0]
+                .split("/")
+                .pop();
         }
     }
 
     return callerFile;
 }
+
+export { Singleton, Nexus, loadHook };

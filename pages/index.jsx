@@ -11,8 +11,11 @@ import {
 import { ColorModeToggle } from "../components/color-mode-toggle";
 import { FaLightbulb } from "react-icons/fa";
 import { SlEnergy } from "react-icons/sl";
-import { RiLightbulbLine, RiLightbulbFlashFill } from "react-icons/ri";
-import { Singleton } from "../utils/lattice-design";
+import {
+    RiLightbulbLine,
+    RiLightbulbFlashFill,
+} from "react-icons/ri";
+import { loadHook, Singleton } from "../utils/lattice-design";
 
 const useLight = Singleton(false);
 
@@ -34,8 +37,10 @@ export default function Page() {
                 <Logo />
                 <Controls />
                 <Code
-                transition={"all ease 0.5s"}
-                    backgroundColor={light ? "white" : "black"}
+                    transition={"all ease 0.5s"}
+                    backgroundColor={
+                        light ? "white" : "black"
+                    }
                     color={"black"}
                     fontSize={"0.8rem"}
                     px={"1.4rem"}
@@ -44,7 +49,6 @@ export default function Page() {
                     my={"1rem"}
                     fontWeight={"500"}
                 >
-                    {/* {`import { Nexus, Singleton, loadHook } from "lattice-design"`} */}
                     {`npm i lattice-design`}
                 </Code>
             </VStack>
@@ -56,7 +60,9 @@ function Logo() {
     const [light] = useLight();
     return (
         <Heading
-            textShadow={light ? "0px 0px 10px white" : "none"}
+            textShadow={
+                light ? "0px 0px 10px white" : "none"
+            }
             // color={light ? "cyan.100" : "none"}
             transition={"all ease 0.3s"}
             fontWeight={400}
@@ -72,6 +78,12 @@ function Logo() {
 
 function Controls() {
     const [light, setLight] = useLight();
+    const [title, setTitle] = loadHook("useTitle");
+
+    const handleLightChange = (e) => {
+        setLight(e.checked);
+        setTitle(e.checked ? "Lattice Design - Try it out!" : "Lattice Design");
+    };
     return (
         <HStack>
             {/* <Text color={"yellow.300"}>
@@ -80,7 +92,7 @@ function Controls() {
             <Switch.Root
                 size={"sm"}
                 checked={light}
-                onCheckedChange={(e) => setLight(e.checked)}
+                onCheckedChange={handleLightChange}
             >
                 <Switch.HiddenInput />
                 <Switch.Control />
@@ -119,14 +131,33 @@ function Bulbs() {
         borderRadius: "50%",
         transition: "all ease 0.3s",
         bg: `${light ? "white" : "transparent"}`,
-        boxShadow: `${light ? "2px 2px 30px white" : "none"}`,
+        boxShadow: `${
+            light ? "2px 2px 30px white" : "none"
+        }`,
     };
     return (
         <>
-            <Box {...styles} boxShadowColor={"green"} top={0} left={0} />
-            <Box {...styles} top={0} right={0} />
-            <Box {...styles} bottom={0} left={0} />
-            <Box {...styles} bottom={0} right={0} />
+            <Box
+                {...styles}
+                boxShadowColor={"green"}
+                top={0}
+                left={0}
+            />
+            <Box
+                {...styles}
+                top={0}
+                right={0}
+            />
+            <Box
+                {...styles}
+                bottom={0}
+                left={0}
+            />
+            <Box
+                {...styles}
+                bottom={0}
+                right={0}
+            />
         </>
     );
 }
